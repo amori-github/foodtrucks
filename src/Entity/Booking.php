@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BookingRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -30,10 +31,6 @@ class Booking
      */
     private $date;
 
-    public function __construct()
-    {
-        $this->truckDriver = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -41,38 +38,35 @@ class Booking
     }
 
     /**
-     * @return Collection<int, TruckDriver>
+     * @return mixed
      */
-    public function getTruckDriver(): Collection
+    public function getTruckDriver()
     {
         return $this->truckDriver;
     }
 
-    public function addTruckDriver(TruckDriver $truckDriver): self
+    /**
+     * @param mixed $truckDriver
+     */
+    public function setTruckDriver($truckDriver): void
     {
-        if (!$this->truckDriver->contains($truckDriver)) {
-            $this->truckDriver[] = $truckDriver;
-        }
-
-        return $this;
+        $this->truckDriver = $truckDriver;
     }
 
-    public function removeTruckDriver(TruckDriver $truckDriver): self
-    {
-        $this->truckDriver->removeElement($truckDriver);
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
+    /**
+     * @return
+     */
+    public function getDate()
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    /**
+     * @param $date
+     */
+    public function setDate($date): void
     {
         $this->date = $date;
-
-        return $this;
     }
+
 }

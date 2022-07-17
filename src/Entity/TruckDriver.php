@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TruckDriverRepository::class)
- * @UniqueEntity(fields="email", message="E-mail existe déjà")
  */
 class TruckDriver
 {
@@ -33,12 +32,11 @@ class TruckDriver
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Assert\Regex(pattern="/^((00|\+)?212|0)[1-9][0-9]{8}$/m", message="Ce n'est pas un numéro de téléphone portable valide !")
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=75, unique=true)
+     * @ORM\Column(type="string", length=75)
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -123,6 +121,5 @@ class TruckDriver
     {
         $this->email = $email;
     }
-
 
 }

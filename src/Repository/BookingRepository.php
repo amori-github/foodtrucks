@@ -45,12 +45,31 @@ class BookingRepository extends ServiceEntityRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function findByNumberOfReservations($date)
+    public function searchBookingByDate($date)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->where('b.date = :date')
+            ->setParameter('date', $date)
+            ->getQuery()->getSingleScalarResult()
+            ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function searchBookingInTheWeek($dateStart , $dateLast, $email)
     {
         return $this->createQueryBuilder('b')
             ->select('COUNT( b.id)')
-            ->where('b.date = :date')
-            ->setParameter('date', $date)
+            ->innerJoin('b.truckDriver', 't')
+            ->andWhere('b.date >= :start')
+            ->andWhere('b.date <= :end')
+            ->andWhere('t.email = :email')
+            ->setParameter('start', $dateStart)
+            ->setParameter('end', $dateLast)
+            ->setParameter('email', $email)
             ->getQuery()->getSingleScalarResult()
             ;
     }
